@@ -1,0 +1,68 @@
+/* GLOBAL STYLES */
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+}
+
+body {
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+p {
+    font-size: 1.6rem;
+    color: var(--grayish-violet);
+    line-height: 1.6;
+}
+
+section {
+    padding: 5rem 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+}
+
+/* VARIABLES */
+:root {
+    --cyan: hsl(180, 66%, 49%);
+    --dark-violet: hsl(257, 27%, 26%);
+    --gray: hsl(0, 0%, 75%);
+    --dark-grey: #EFF1F7;
+    --grayish-violet: hsl(260, 7%, 59%);
+    --very-dark-blue: hsl(255, 11%, 22%);
+    --very-dark-violet: hsl(260, 8%, 14%);
+    --white: #fff;
+    --warning : #fff176;
+}
+
+/* UTILITY CLASSES */
+.u-mb-small {
+    margin-bottom: 1.6rem;
+}
+
+.u-mb-medium {
+    margin-bottom: 3rem;
+}
+
+.u-mb-large {
+    margin-bottom: 5rem;
+}
