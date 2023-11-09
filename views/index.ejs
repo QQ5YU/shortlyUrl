@@ -65,14 +65,16 @@
               <input type="text" name="fullUrl" placeholder="Shorten It!"/>
               <button class="link-btn">Shorten It</button>
             </form>
-            <h2 class="shortUrl">
-              <% if (shortUrl === null) { %>
-               <h2 class="errMsg"><%= errMsg %></h2>
-              <% } else { %>
-                Shorted URL : 
-                <a href="<%= shortUrl.full %>">http://<%= shortUrl.short %></a>
+            <% if (shortUrl) { %>
+              <h2 class="shortUrl">
+                <% if (shortUrl === "error") { %>
+                <h2 class="errMsg"><%= errMsg %></h2>
+                <% } else { %>
+                  Shorted URL : 
+                  <a href="<%= shortUrl.full %>">http://<%= shortUrl.short %></a>
+                <% } %>
+              </h2>
               <% } %>
-            </h2>
           </div>
           <div class="about">
             <h2 class="u-mb-small">Advanced Statistics</h2>
@@ -176,4 +178,9 @@
       </footer>
     </main>
   </body>
+  <script type="text/javascript">
+    window.addEventListener('beforeunload', function (event) {
+      fetch('/closeWindow');
+    });
+  </script>
 </html>

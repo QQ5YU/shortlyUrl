@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const ShortUrl = require("./models/shortUrl");
 const app = express();
 // declare variable --------
-const url = `mongodb+srv://peiyu:Qq23201729@cluster0.qwmdugw.mongodb.net/?retryWrites=true&w=majority`;
+const url =
+  "mongodb+srv://c109118108:c109118108shortUrl@cluster0.vcn901g.mongodb.net/";
 // connect to mongo DB -----
 mongoose
   .connect(url, {
@@ -23,23 +24,31 @@ app.use(express.urlencoded({ extended: false }));
 
 // route --------------
 app.post("/shortUrl", async (req, res) => {
-  if (req.body.fullUrl) {
+  if (req.body.fullUrl && req.body.fullUrl.startsWith("http")) {
     await ShortUrl.create({ full: req.body.fullUrl });
     res.redirect("/");
   } else {
-    res.render("index", { shortUrl: null, errMsg: "Url cannot be empty. " });
+    await ShortUrl.create({ full: "null" });
+    res.redirect("/");
   }
 });
 
-app.get("/:shortUrl", async (req, res) => {
-  const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
-  if (shortUrl === null) return res.status(404);
-  else res.redirect(shortUrl.full);
+app.get("/closeWindow", async (req, res) => {
+  await ShortUrl.deleteMany({});
+  console.log("Database cleared successfully.");
 });
 
 app.get("/", async (req, res) => {
-  const shortUrl = await ShortUrl.find().sort({ _id: -1 }).limit(1);
-  res.render("index", { shortUrl: shortUrl[0] });
+  const db = await ShortUrl.find();
+  const shortUrl = await ShortUrl.find({ full: { $ne: "null" } })
+    .sort({ _id: -1 })
+    .limit(1);
+  if (shortUrl === undefined) res.render("index", { shortUrl: undefined });
+  else if (db.length !== 0 && (shortUrl.length === 0 || !shortUrl))
+    res.render("index", { shortUrl: "error", errMsg: "Invalid Url. " });
+  else res.render("index", { shortUrl: shortUrl[0] });
 });
 // server -------------
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 5000, () =>
+  console.log("server listening in port 5000")
+);
